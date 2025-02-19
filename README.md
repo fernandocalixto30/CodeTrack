@@ -1,8 +1,15 @@
-# React + Vite
+# Code Track
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[![Deploy](https://img.shields.io/badge/Ver%20o%20Projeto-Online-blue)](https://code-track-jtm6.vercel.app/)
 
-Currently, two official plugins are available:
+## Sobre o Projeto
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**Code Track** é um sistema de cadastro de clientes desenvolvido para desenvolvedores freelancers que desejam organizar e gerenciar seus clientes de forma eficiente. A aplicação permite o registro de informações essenciais dos clientes, como nome, contato, projetos em andamento e status de pagamento.
+
+### Tecnologias Utilizadas
+- **React**: Para a construção da interface do usuário.
+- **Vite**: Para um build rápido e otimizado.
+- **React Icons**: Para a utilização de ícones.
+- **Tailwind CSS**: Para um design moderno e responsivo.
+- **Vercel**: Para o deploy da aplicação.
+- **Firebase**: Para armazenamento de dados e autenticação de usuários.
