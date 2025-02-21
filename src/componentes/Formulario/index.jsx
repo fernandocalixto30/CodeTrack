@@ -129,7 +129,7 @@ const Formulario = () => {
           aoAlterado={setTelefone}
           label="Telefone"
           placeholder="O telefone deve coresponder a (xx) XXXX XXXX"
-          patern="^\(\d{2}\)\s\d{4,5}\s\d{4}$"
+
         />
 
         <ListaSuspensa
