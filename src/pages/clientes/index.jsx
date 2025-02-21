@@ -186,6 +186,7 @@ const Clientes = () => {
         <ModalConfirmacao
         onConfirm={handleDelete}  
         onCancel={cancelarExclusao} 
+     
         />
       )}
     </>
