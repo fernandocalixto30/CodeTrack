@@ -46,8 +46,8 @@ const Formulario = () => {
   const aoSalvar = async (evento) => {
     evento.preventDefault();
 
-    setErro(""); // Reseta o erro antes da validação
-    setSucesso(""); // Reseta a mensagem de sucesso antes da requisição
+    setErro(""); 
+    setSucesso(""); 
 
     const user = await supabase.auth.getUser();
     if (!user || !user.data.user) {
