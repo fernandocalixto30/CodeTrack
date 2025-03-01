@@ -46,6 +46,7 @@ const Clientes = () => {
     setClienteIdExcluir(null); 
   };
 
+  
   useEffect(() => {
     const buscarClientes = async () => {
       try {
@@ -186,7 +187,7 @@ const Clientes = () => {
         <ModalConfirmacao
         onConfirm={handleDelete}  
         onCancel={cancelarExclusao} 
-     
+     setCarregando={setCarregando}
         />
       )}
     </>

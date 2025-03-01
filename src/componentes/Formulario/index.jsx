@@ -6,7 +6,6 @@ import { useState, useEffect } from "react";
 import { supabase } from "../../supabaseClient.js";
 import { useNavigate } from "react-router-dom";
 
-
 const Formulario = () => {
   const [nome, setNome] = useState("");
   const [telefone, setTelefone] = useState("");
@@ -17,6 +16,7 @@ const Formulario = () => {
   const [erro, setErro] = useState("");
   const [sucesso, setSucesso] = useState("");
   const navigate = useNavigate();
+
   const tiposDeCliente = ["", "Pessoa Física", "Pessoa Jurídica"];
   const tiposDeServico = [
     "",
@@ -33,6 +33,18 @@ const Formulario = () => {
     "Outros",
   ];
 
+  const formatPhone = (value) => {
+    return value
+      .replace(/\D/g, "") // Remove não numéricos
+      .replace(/^(\d{2})(\d)/g, "($1) $2") // Adiciona parênteses no DDD
+      .replace(/(\d{5})(\d)/, "$1-$2") // Adiciona o hífen
+      .substring(0, 15); // Garante que não passe do limite
+  };
+
+  useEffect(() => {
+    setTelefone(formatPhone(telefone));
+  }, [telefone]);
+
   useEffect(() => {
     if (file) {
       const reader = new FileReader();
@@ -45,9 +57,13 @@ const Formulario = () => {
 
   const aoSalvar = async (evento) => {
     evento.preventDefault();
+    setErro("");
+    setSucesso("");
 
-    setErro(""); 
-    setSucesso(""); 
+    if (!cliente || !servico || !nome || !telefone) {
+      setErro("Preencha todos os campos para o cadastro do cliente.");
+      return;
+    }
 
     const user = await supabase.auth.getUser();
     if (!user || !user.data.user) {
@@ -56,7 +72,6 @@ const Formulario = () => {
     }
 
     const user_id = user.data.user.id;
-
     const { error } = await supabase.from("clientes").insert([
       { user_id, nome, telefone, imagem, cliente, servico }
     ]);
@@ -66,11 +81,9 @@ const Formulario = () => {
       setErro(error.message);
     } else {
       setSucesso("Cliente cadastrado com sucesso!");
-      console.log(nome, telefone, imagem, cliente)
       setTimeout(() => {
         setSucesso("");
-        navigate("/")
-
+        navigate("/");
       }, 1000);
 
       setNome("");
@@ -91,7 +104,7 @@ const Formulario = () => {
         {sucesso && <div className="container-sucesso"><span className="sucesso-auth">{sucesso}</span></div>}
 
         <div className="input-file-container">
-          {imagem ? <img src={imagem} className="img-cliente" /> : ""}
+          {imagem && <img src={imagem} className="img-cliente" alt="Prévia da imagem" />}
           <div className="input-file-content">
             <label htmlFor="user-file" className="label-file">Escolher Foto</label>
             <input
@@ -115,21 +128,15 @@ const Formulario = () => {
           valor={nome}
           aoAlterado={setNome}
           label="Nome"
-          placeholder={`Digite ${cliente
-            ? cliente === "Pessoa Física"
-              ? "o nome da pessoa"
-              : "o nome da empresa ou instituição"
-            : ""
-            }`}
+          placeholder={cliente === "Pessoa Física" ? "Digite o nome da pessoa" : "Digite o nome da empresa"}
         />
 
         <CampoTexto
           type="tel"
           valor={telefone}
-          aoAlterado={setTelefone}
+          aoAlterado={(val) => setTelefone(formatPhone(val))}
           label="Telefone"
-          placeholder="O telefone deve coresponder a (xx) XXXX XXXX"
-
+          placeholder="(XX) XXXXX-XXXX"
         />
 
         <ListaSuspensa
