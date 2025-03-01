@@ -33,13 +33,23 @@ const Formulario = () => {
     "Outros",
   ];
 
+ 
+ 
   const formatPhone = (value) => {
-    return value
-      .replace(/\D/g, "") // Remove não numéricos
-      .replace(/^(\d{2})(\d)/g, "($1) $2") // Adiciona parênteses no DDD
-      .replace(/(\d{5})(\d)/, "$1-$2") // Adiciona o hífen
-      .substring(0, 15); // Garante que não passe do limite
+ 
+  value = value.replace(/^(\d{2})/, "($1) ");
+  
+    // Adiciona o hífen após 5 números do DDD
+    if (value.length > 2 && value.length <=13) {
+      value = value.replace(/^(\(\d{2}\) \d{4})(\d{1})/, "$1-$2");
+    } else if (value.length > 12) {
+      value = value.replace(/^(\(\d{2}\) \d{5})(\d{1})/, "$1-$2");
+    }
+  
+    return value;
   };
+  
+  
 
   useEffect(() => {
     setTelefone(formatPhone(telefone));
@@ -128,7 +138,7 @@ const Formulario = () => {
           valor={nome}
           aoAlterado={setNome}
           label="Nome"
-          placeholder={cliente === "Pessoa Física" ? "Digite o nome da pessoa" : "Digite o nome da empresa"}
+          placeholder={cliente === "Pessoa Física" ? "Digite o nome do(a) cliente" : "Digite o nome da empresa"}
         />
 
         <CampoTexto
